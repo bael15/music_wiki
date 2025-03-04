@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Результаты поиска</title>
+</head>
+<body>
+    <h1>Результаты поиска по запросу: "{{ request.GET.q }}"</h1>
+
+    <h2>Группы</h2>
+    <ul>
+        {% for group in groups %}
+            <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+        {% empty %}
+            <li>Группы не найдены.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Альбомы</h2>
+    <ul>
+        {% for album in albums %}
+            <li><a href="{% url 'album_detail' album.id %}">{{ album.title }}</a></li>
+        {% empty %}
+            <li>Альбомы не найдены.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Песни</h2>
+    <ul>
+        {% for song in songs %}
+            <li><a href="{% url 'song_detail' song.id %}">{{ song.title }}</a></li>
+        {% empty %}
+            <li>Песни не найдены.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Участники группы</h2>
+    <ul>
+        {% for member in members %}
+            <li><a href="{% url 'group_member_detail' member.id %}">{{ member.name }}</a></li>
+        {% empty %}
+            <li>Участники не найдены.</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

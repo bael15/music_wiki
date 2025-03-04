@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'music'
 ]
 
 MIDDLEWARE = [
@@ -51,10 +53,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'music_wiki.urls'
 
+# music_wiki/settings.py
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'music', 'templates')],  # Указываем путь к шаблонам
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,6 +70,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'music_wiki.wsgi.application'
 
