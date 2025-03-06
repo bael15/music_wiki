@@ -1,13 +1,47 @@
-<!-- music/templates/music/home.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Музыкальная Википедия</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
-    <h1>хуйчик</h1>
-    <p>Добро пожаловать на главную страницу!</p>
+    <div class="container">
+        <h1>Добро пожаловать в Музыкальную Википедию</h1>
+
+        <form action="{% url 'search' %}" method="GET">
+            <input type="text" name="query" placeholder="Поиск..." required>
+            <button type="submit">🔍 Найти</button>
+        </form>
+
+        <h2>Последние добавленные группы</h2>
+        <ul>
+            {% for group in groups %}
+                <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+            {% empty %}
+                <li>Нет добавленных групп.</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Последние добавленные альбомы</h2>
+        <ul>
+            {% for album in albums %}
+                <li><a href="{% url 'album_detail' album.id %}">{{ album.title }}</a></li>
+            {% empty %}
+                <li>Нет добавленных альбомов.</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Последние добавленные песни</h2>
+        <ul>
+            {% for song in songs %}
+                <li><a href="{% url 'song_detail' song.id %}">{{ song.title }}</a></li>
+            {% empty %}
+                <li>Нет добавленных песен.</li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

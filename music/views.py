@@ -1,20 +1,36 @@
-# music/views.py
-from django.http import HttpResponse
 from django.shortcuts import render
+from .models import Group, Album, Song  
 
-# Пример функции представления
 def home(request):
-     return render(request, 'music/home.html') 
+    groups = Group.objects.all().order_by('-created_at')[:5]  # последние 5 групп
+    albums = Album.objects.all().order_by('-created_at')[:5]  # последние 5 альбомов
+    songs = Song.objects.all().order_by('-created_at')[:5]  # последние 5 песен
 
-# Другие представления
+    return render(request, 'music/home.html', {'groups': groups, 'albums': albums, 'songs': songs})
+
 def search(request):
-    return HttpResponse("Search Page")
+    query = request.GET.get('query', '')
+    
+    # Поиск по группам, альбомам и песням
+    groups = Group.objects.filter(name__icontains=query)
+    albums = Album.objects.filter(title__icontains=query)
+    songs = Song.objects.filter(title__icontains=query)
+    
+    return render(request, 'music/search_results.html', {'query': query, 'groups': groups, 'albums': albums, 'songs': songs})
 
 def group_detail(request, group_id):
-    return HttpResponse(f"Group {group_id} details")
+    group = Group.objects.get(id=group_id)
+    albums = group.albums.all()  
+    songs = Song.objects.filter(group=group)  # песни, относящиеся к группе
+    return render(request, 'music/group_detail.html', {'group': group, 'albums': albums, 'songs': songs})
 
-def album_detail(request, album_id):
-    return HttpResponse(f"Album {album_id} details")
 
 def song_detail(request, song_id):
-    return HttpResponse(f"Song {song_id} details")
+    song = Song.objects.get(id=song_id)
+    return render(request, 'music/song_detail.html', {'song': song})
+
+
+def album_detail(request, album_id):
+    album = Album.objects.get(id=album_id)
+    songs = album.songs.all() 
+    return render(request, 'music/album_detail.html', {'album': album, 'songs': songs})

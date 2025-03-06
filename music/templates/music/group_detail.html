@@ -1,0 +1,25 @@
+{% extends 'music/home.html' %}
+
+{% block title %}{{ group.name }} - Группа{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ group.name }}</h1>
+    
+    {% if group.image %}
+        <img src="{{ group.image.url }}" alt="{{ group.name }}" class="group-image">
+    {% endif %}
+    
+    <p><strong>Дата основания:</strong> {{ group.formed_date }}</p>
+    <p><strong>Описание:</strong> {{ group.description }}</p>
+
+    <h2>Альбомы</h2>
+    <ul>
+        {% for album in group.albums.all %}
+            <li><a href="{% url 'album_detail' album.id %}">{{ album.title }}</a> ({{ album.release_date }})</li>
+        {% empty %}
+            <li>Нет альбомов</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

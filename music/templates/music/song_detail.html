@@ -1,0 +1,21 @@
+<!-- templates/music/song_detail.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ song.title }}</title>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ song.title }}</h1>
+        <p>{{ song.description }}</p>
+
+        <!-- Вставляем аудиоплеер -->
+        <audio controls>
+            <source src="{{ song.audio.url }}" type="audio/mpeg">
+            Ваш браузер не поддерживает аудиофайлы.
+        </audio>
+    </div>
+</body>
+</html>
